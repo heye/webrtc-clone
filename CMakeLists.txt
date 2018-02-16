@@ -59,7 +59,7 @@ option(rtc_enable_libevent "enable libevent" OFF)
 #======================= end webrtc options =================================
 
 #definitions
-list(APPEND rtc_definitions "WEBRTC_NON_STATIC_TRACE_EVENT_HANDLERS=0" "WEBRTC_EXTERNAL_JSON")
+list(APPEND rtc_definitions "WEBRTC_NON_STATIC_TRACE_EVENT_HANDLERS=0")
 if(UNIX)
   list(APPEND rtc_definitions "WEBRTC_POSIX")
 endif()

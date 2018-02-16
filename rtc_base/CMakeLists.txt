@@ -1,11 +1,9 @@
 project(rtc_base)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-if(rtc_is_subproject)
-  include_directories(../)
-else()
-  include_directories(${CMAKE_SOURCE_DIR})
-endif()
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../third_party/jsoncpp/include)
+
 if(UNIX)
   list(APPEND PLATFORM_SRC file_posix.cc ifaddrs_converter.cc unixfilesystem.cc)
 endif()
@@ -45,6 +43,20 @@ if(rtc_build_android)
   java/src/org/webrtc/ThreadUtils.java)
   ]]
 endif()
+find_package(OpenSSL REQUIRED) 
+if(OPENSSL_FOUND)
+    include_directories(${OPENSSL_INCLUDE_DIR})
+    link_directories(${OPENSSL_LIBRARIES})
+    message(STATUS "trallaaa")
+    message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
+else() 
+  message(FATAL "OpenSSL Not Found")
+endif()
+set(JSONCPP_WITH_TESTS OFF CACHE BOOL "jsoncpp" FORCE)
+set(JSONCPP_WITH_POST_BUILD_UNITTEST OFF CACHE BOOL "jsoncpp" FORCE)
+set(JSONCPP_WITH_PKGCONFIG_SUPPORT OFF CACHE BOOL "Enable jsoncpp pkgconfig support" FORCE)
+set(BUILD_STATIC_LIBS ON CAHCE BOOL "jsoncpp build shared ?")
+add_subdirectory(../third_party/jsoncpp "${CMAKE_CURRENT_BINARY_DIR}/jsoncpp")
 
 list(APPEND API_SRC
 asyncinvoker.cc
@@ -130,6 +142,8 @@ zero_memory.cc
 )
 
 add_library(${PROJECT_NAME} STATIC ${API_SRC} ${PLATFORM_SRC})
+target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} jsoncpp)
 if(using_clang)
   target_compile_options(${PROJECT_NAME} PRIVATE -Wno-sign-compare -Wno-missing-braces)
 elseif(rtc_build_win)
