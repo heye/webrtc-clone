@@ -47,7 +47,6 @@ find_package(OpenSSL REQUIRED)
 if(OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIR})
     link_directories(${OPENSSL_LIBRARIES})
-    message(STATUS "trallaaa")
     message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
 else() 
   message(FATAL "OpenSSL Not Found")
@@ -58,7 +57,7 @@ set(JSONCPP_WITH_PKGCONFIG_SUPPORT OFF CACHE BOOL "Enable jsoncpp pkgconfig supp
 set(BUILD_STATIC_LIBS ON CAHCE BOOL "jsoncpp build shared ?")
 add_subdirectory(../third_party/jsoncpp "${CMAKE_CURRENT_BINARY_DIR}/jsoncpp")
 
-list(APPEND API_SRC
+list(APPEND RTC_BASE_SRC
 asyncinvoker.cc
 asyncpacketsocket.cc
 asyncresolverinterface.cc
@@ -141,7 +140,7 @@ weak_ptr.cc
 zero_memory.cc
 )
 
-add_library(${PROJECT_NAME} STATIC ${API_SRC} ${PLATFORM_SRC})
+add_library(${PROJECT_NAME} STATIC ${RTC_BASE_SRC} ${PLATFORM_SRC})
 target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} jsoncpp)
 if(using_clang)

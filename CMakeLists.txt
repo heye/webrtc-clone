@@ -55,6 +55,7 @@ option(rtc_buildfor_arm64 "build for arm64" OFF)
 option(rtc_buildfor_arm "build for arm" OFF)
 option(rtc_build_ssl "build rtc ssl" ON)
 option(rtc_enable_libevent "enable libevent" OFF)
+option(rtc_build_libsrtp "ebnable libsrtp" OFF)
 
 #======================= end webrtc options =================================
 
@@ -134,6 +135,7 @@ endif()
 
 
 add_subdirectory(rtc_base)
+add_subdirectory(pc)
 #[[
 add_subdirectory(api)
 add_subdirectory(audio)
@@ -153,6 +155,7 @@ add_subdirectory(stats)
 ]]
 #end subfolders
 target_compile_definitions(rtc_base PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_pc PUBLIC ${rtc_definitions})
 #include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(audio)
@@ -177,6 +180,6 @@ set(RTC_SRC "common_types.cc")
 
 
 add_library(${PROJECT_NAME} STATIC ${RTC_SRC})
-target_link_libraries(${PROJECT_NAME} rtc_base)
+target_link_libraries(${PROJECT_NAME} rtc_base rtc_pc)
 target_compile_options(${PROJECT_NAME} PUBLIC ${rtc_compile_options_c} ${rtc_compile_options_cxx})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${rtc_definitions})
