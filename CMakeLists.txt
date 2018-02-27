@@ -135,7 +135,10 @@ endif()
 
 
 add_subdirectory(rtc_base)
+add_subdirectory(p2p)
 add_subdirectory(pc)
+add_subdirectory(stats)
+add_subdirectory(logging)
 #[[
 add_subdirectory(api)
 add_subdirectory(audio)
@@ -156,6 +159,9 @@ add_subdirectory(stats)
 #end subfolders
 target_compile_definitions(rtc_base PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_pc PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_p2p PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_stats PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_logging PUBLIC ${rtc_definitions})
 #include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(audio)
@@ -180,6 +186,6 @@ set(RTC_SRC "common_types.cc")
 
 
 add_library(${PROJECT_NAME} STATIC ${RTC_SRC})
-target_link_libraries(${PROJECT_NAME} rtc_base rtc_pc)
+target_link_libraries(${PROJECT_NAME} rtc_base rtc_pc rtc_p2p rtc_stats rtc_logging)
 target_compile_options(${PROJECT_NAME} PUBLIC ${rtc_compile_options_c} ${rtc_compile_options_cxx})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${rtc_definitions})
