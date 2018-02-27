@@ -42,9 +42,9 @@ option(rtc_build_android "build android" OFF)
 option(rtc_build_fuchsia "build fuchsia" OFF)
 option(rtc_build_ios "build ios" OFF)
 option(rtc_build_mac "build ios" OFF)
+option(rtc_build_linux "build win" OFF)
 option(rtc_enable_protobuf "enable proto buf" OFF)
 option(rtc_include_tests "include tests" OFF)
-option(rtc_build_linux "build win" OFF)
 option(rtc_restrict_logging "restrict logging" ON)
 option(rtc_include_internal_audio_device "internal audio device" OFF)
 option(rtc_libvpx_build_vp9 "build vp9" OFF)
@@ -133,7 +133,8 @@ endif()
 
 #subfolders
 
-
+add_subdirectory(system_wrappers)
+add_subdirectory(video)
 add_subdirectory(rtc_base)
 add_subdirectory(p2p)
 add_subdirectory(pc)
@@ -162,6 +163,8 @@ target_compile_definitions(rtc_pc PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_p2p PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_stats PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_logging PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_video PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_system_wrappers PUBLIC ${rtc_definitions})
 #include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(audio)
@@ -186,6 +189,6 @@ set(RTC_SRC "common_types.cc")
 
 
 add_library(${PROJECT_NAME} STATIC ${RTC_SRC})
-target_link_libraries(${PROJECT_NAME} rtc_base rtc_pc rtc_p2p rtc_stats rtc_logging)
+target_link_libraries(${PROJECT_NAME} rtc_base rtc_pc rtc_p2p rtc_stats rtc_logging rtc_video rtc_system_wrappers)
 target_compile_options(${PROJECT_NAME} PUBLIC ${rtc_compile_options_c} ${rtc_compile_options_cxx})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${rtc_definitions})
