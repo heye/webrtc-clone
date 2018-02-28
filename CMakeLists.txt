@@ -57,6 +57,7 @@ option(rtc_build_ssl "build rtc ssl" ON)
 option(rtc_enable_libevent "enable libevent" OFF)
 option(rtc_build_libsrtp "ebnable libsrtp" OFF)
 option(rtc_desktop_capture_supported "enable desktop capture" OFF)
+option(rtc_prefer_fixed_point "enble fixed point" OFF)
 
 #======================= end webrtc options =================================
 
@@ -112,8 +113,10 @@ if(rtc_buildfor_arm64)
   # Disable LTO on NEON targets due to compiler bug.
   # TODO(fdegans): Enable this. See crbug.com/408997.
   option(rtc_use_lto "enable lto" OFF)
+  set(rtc_prefer_fixed_point ON)
 endif()
 if(rtc_buildfor_arm)
+  set(rtc_prefer_fixed_point ON)
   option(rtc_build_with_neon "build with neon" OFF)
   list(APPEND rtc_definitions "WEBRTC_ARCH_ARM")
   if(rtc_build_with_neon)
