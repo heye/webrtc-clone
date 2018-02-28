@@ -56,6 +56,7 @@ option(rtc_buildfor_arm "build for arm" OFF)
 option(rtc_build_ssl "build rtc ssl" ON)
 option(rtc_enable_libevent "enable libevent" OFF)
 option(rtc_build_libsrtp "ebnable libsrtp" OFF)
+option(rtc_desktop_capture_supported "enable desktop capture" OFF)
 
 #======================= end webrtc options =================================
 
@@ -107,9 +108,20 @@ if(rtc_use_builtin_sw_codecs)
 endif()
 if(rtc_buildfor_arm64)
   list(APPEND rtc_definitions "WEBRTC_ARCH_ARM64" "WEBRTC_HAS_NEON")
+  option(rtc_build_with_neon "build with neon" ON)
+  # Disable LTO on NEON targets due to compiler bug.
+  # TODO(fdegans): Enable this. See crbug.com/408997.
+  option(rtc_use_lto "enable lto" OFF)
 endif()
-if(rtc_buildfor_arm64)
+if(rtc_buildfor_arm)
+  option(rtc_build_with_neon "build with neon" OFF)
   list(APPEND rtc_definitions "WEBRTC_ARCH_ARM")
+  if(rtc_build_with_neon)
+    list(APPEND rtc_definitions "WEBRTC_HAS_NEON")
+    # Disable LTO on NEON targets due to compiler bug.
+    #TODO(fdegans): Enable this. See crbug.com/408997.
+    option(rtc_use_lto "enable lto" OFF)
+  endif(rtc_build_with_neon)
   #TODO: add definitions for version and neon WEBRTC_ARCH_ARM_V7 WEBRTC_HAS_NEON
 endif()
 if (rtc_enable_protobuf)
@@ -132,7 +144,8 @@ endif()
 
 
 #subfolders
-
+add_subdirectory(modules)
+add_subdirectory(ortc)
 add_subdirectory(system_wrappers)
 add_subdirectory(video)
 add_subdirectory(rtc_base)
@@ -150,12 +163,6 @@ add_subdirectory(media)
 add_subdirectory(modules)
 add_subdirectory(ortc)
 add_subdirectory(sdk)
-add_subdirectory(system_wrappers)
-add_subdirectory(video)
-add_subdirectory(logging)
-add_subdirectory(p2p)
-add_subdirectory(pc)
-add_subdirectory(stats)
 ]]
 #end subfolders
 target_compile_definitions(rtc_base PUBLIC ${rtc_definitions})
@@ -165,6 +172,8 @@ target_compile_definitions(rtc_stats PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_logging PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_video PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_system_wrappers PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_ortc PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_modules INTERFACE ${rtc_definitions})
 #include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(audio)
