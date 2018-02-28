@@ -46,7 +46,7 @@ option(rtc_build_linux "build win" OFF)
 option(rtc_enable_protobuf "enable proto buf" OFF)
 option(rtc_include_tests "include tests" OFF)
 option(rtc_restrict_logging "restrict logging" ON)
-option(rtc_include_internal_audio_device "internal audio device" OFF)
+option(rtc_include_internal_audio_device "internal audio device" ON) # default ON , for chromium is false
 option(rtc_libvpx_build_vp9 "build vp9" OFF)
 option(rtc_enable_sctp "enable scpt" ON)
 option(rtc_enable_external_auth "enable external auth" OFF)
