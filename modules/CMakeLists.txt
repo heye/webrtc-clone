@@ -12,13 +12,12 @@ add_subdirectory(pacing)
 add_subdirectory(remote_bitrate_estimator)
 add_subdirectory(rtp_rtcp)
 add_subdirectory(video_coding)
-#add_subdirectory(video_processing)
+add_subdirectory(video_processing)
+add_subdirectory(utility)
 if(rtc_desktop_capture_supported)
   #TODO: add support for desktop capture
   #add_subdirectory(video_capture)
 endif(rtc_desktop_capture_supported)
-
-#TODO: #add_subdirectory(utility)
 
 
 add_library(${PROJECT_NAME} INTERFACE)
@@ -34,3 +33,5 @@ target_compile_definitions(rtc_pacing PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_remote_bitrate_estimator PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_rtp_rtcp PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_video_coding PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_video_processing PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_utility PUBLIC ${rtc_definitions})
