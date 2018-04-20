@@ -61,6 +61,8 @@ option(rtc_initialize_ffmpeg "rtc init ffmpeg" OFF)
 option(rtc_build_libvpx "enable libvpx" OFF)
 option(rtc_libvpx_build_vp9 "enable libvpx vp9" OFF)
 option(rtc_use_builtin_sw_codecs "enable build in codecs" OFF)
+option(rtc_use_openmax_dl "enable openmax" OFF)
+
 #======================= end webrtc options =================================
 
 #definitions
@@ -159,11 +161,11 @@ add_subdirectory(pc)
 add_subdirectory(stats)
 add_subdirectory(logging)
 add_subdirectory(audio)
+add_subdirectory(common_audio)
 #[[
 add_subdirectory(api)
 
 add_subdirectory(call)
-add_subdirectory(common_audio)
 add_subdirectory(common_video)
 add_subdirectory(media)
 add_subdirectory(ortc)
@@ -180,6 +182,7 @@ target_compile_definitions(rtc_system_wrappers PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_ortc PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_modules INTERFACE ${rtc_definitions})
 target_compile_definitions(rtc_audio PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_common_audio PUBLIC ${rtc_definitions})
 #include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(audio)
