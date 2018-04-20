@@ -47,10 +47,8 @@ option(rtc_enable_protobuf "enable proto buf" OFF)
 option(rtc_include_tests "include tests" OFF)
 option(rtc_restrict_logging "restrict logging" ON)
 option(rtc_include_internal_audio_device "internal audio device" ON) # default ON , for chromium is false
-option(rtc_libvpx_build_vp9 "build vp9" OFF)
 option(rtc_enable_sctp "enable scpt" ON)
 option(rtc_enable_external_auth "enable external auth" OFF)
-option(rtc_use_builtin_sw_codecs "use built in software codecs" OFF)
 option(rtc_buildfor_arm64 "build for arm64" OFF)
 option(rtc_buildfor_arm "build for arm" OFF)
 option(rtc_build_ssl "build rtc ssl" ON)
@@ -58,7 +56,11 @@ option(rtc_enable_libevent "enable libevent" OFF)
 option(rtc_build_libsrtp "ebnable libsrtp" OFF)
 option(rtc_desktop_capture_supported "enable desktop capture" OFF)
 option(rtc_prefer_fixed_point "enble fixed point" OFF)
-
+option(rtc_use_h264 "use h264 codec" OFF)
+option(rtc_initialize_ffmpeg "rtc init ffmpeg" OFF)
+option(rtc_build_libvpx "enable libvpx" OFF)
+option(rtc_libvpx_build_vp9 "enable libvpx vp9" OFF)
+option(rtc_use_builtin_sw_codecs "enable build in codecs" OFF)
 #======================= end webrtc options =================================
 
 #definitions
