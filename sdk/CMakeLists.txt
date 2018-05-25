@@ -1,27 +1,31 @@
-project(rtc_video)
+project(rtc_sdk)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 
+if(rtc_build_ios OR rtc_build_mac)
+  set(rtc_use_metal_rendering ON)
+else()
+  set(rtc_use_metal_rendering ON)
+endif(rtc_build_ios OR rtc_build_mac)
 
-list(APPEND RTC_VIDEO_SRC
-call_stats.cc
-encoder_rtcp_feedback.cc
-overuse_frame_detector.cc
-payload_router.cc
-quality_threshold.cc
-receive_statistics_proxy.cc
-report_block_stats.cc
-rtp_streams_synchronizer.cc
-rtp_video_stream_receiver.cc
-send_delay_stats.cc
-send_statistics_proxy.cc
-stats_counter.cc
-stream_synchronization.cc
-transport_adapter.cc
-video_receive_stream.cc
-video_send_stream.cc
-video_stream_decoder.cc
-video_stream_encoder.cc
-)
+if(rtc_build_ios OR rtc_build_mac)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/objc/Framework/Classes)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/objc/Framework/Classes/Audio)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/objc/Framework/Classes/Common)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/objc/Framework/Classes/Metal)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/objc/Framework/Classes/PeerConnection)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/objc/Framework/Classes/UI)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/objc/Framework/Classes/Video)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/objc/Framework/Classes/VideoToolbox)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/objc/Framework/Headers)
+  list(APPEND RTC_SDK_SRC
+  )
+endif(rtc_build_ios OR rtc_build_mac)
 
-add_library(${PROJECT_NAME} STATIC ${RTC_VIDEO_SRC})
+if(rtc_build_ios)
+  list(APPEND RTC_SDK_SRC
+  )
+endif(rtc_build_ios)
+
+
+add_library(${PROJECT_NAME} STATIC ${RTC_SDK_SRC})

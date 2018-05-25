@@ -18,6 +18,7 @@ list(APPEND RTC_CALL_SRC
   video_config.cc
   video_receive_stream.cc
   video_send_stream.cc
+  audio_send_stream.cc
 )
 
 add_library(${PROJECT_NAME} STATIC ${RTC_CALL_SRC})

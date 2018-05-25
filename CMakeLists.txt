@@ -165,12 +165,11 @@ add_subdirectory(common_audio)
 add_subdirectory(common_video)
 add_subdirectory(call)
 add_subdirectory(media)
-
-#[[
+if(rtc_build_ios OR rtc_build_mac)
+  add_subdirectory(sdk)
+endif(rtc_build_ios OR rtc_build_mac)
 add_subdirectory(api)
-add_subdirectory(ortc)
-add_subdirectory(sdk)
-]]
+
 #end subfolders
 target_compile_definitions(rtc_base PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_pc PUBLIC ${rtc_definitions})
@@ -186,6 +185,10 @@ target_compile_definitions(rtc_common_audio PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_common_video PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_call PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_media PUBLIC ${rtc_definitions})
+if(rtc_build_ios OR rtc_build_mac)
+  target_compile_definitions(rtc_sdk PUBLIC ${rtc_definitions})
+endif(if(rtc_build_ios OR rtc_build_mac))
+target_compile_definitions(rtc_api PUBLIC ${rtc_definitions})
 #include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(audio)
@@ -203,6 +206,11 @@ include_directories(logging)
 include_directories(p2p)
 include_directories(pc)
 include_directories(stats)
+include_directories(api)
+
+if(rtc_build_ios OR rtc_build_mac)
+  include_directories(sdk)
+endif(if(rtc_build_ios OR rtc_build_mac))
 #end include dirs
 
 
