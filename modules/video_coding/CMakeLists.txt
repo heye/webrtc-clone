@@ -6,8 +6,10 @@ endif(rtc_use_h264)
 
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
-
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/internal)
+include_directories(${CMAKE_SOURCE_DIR}/third_party)
+include_directories(${CMAKE_SOURCE_DIR}/third_party/libyuv)
+include_directories(${CMAKE_SOURCE_DIR}/third_party/libyuv/include)
 
 list(APPEND RTC_VIDEO_CODING_SRC
   codec_database.cc
@@ -108,4 +110,3 @@ ExternalProject_add(
 ]]
 add_library(${PROJECT_NAME} STATIC ${RTC_VIDEO_CODING_SRC})
 target_compile_definitions(${PROJECT_NAME} PRIVATE ${RTC_VIDEO_CODING_DEFINES})
-#add_dependencies(${PROJECT_NAME} ffmpeg)
