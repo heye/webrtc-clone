@@ -24,17 +24,22 @@ list(APPEND API_ORTC_SRC
   ortc/mediadescription.cc
   ortc/sessiondescription.cc
 )
+list(APPEND API_AUDIO_FRAME_SRC "")
+list(APPEND API_VIDEO_FRAME_SRC "")
 
-list(APPEND API_AUDIO_FRAME_SRC
-  audio/audio_frame.cc
-)
-list(APPEND API_VIDEO_FRAME_SRC
-  video/video_content_type.cc
-  video/video_frame.cc
-  video/video_frame_buffer.cc
-  video/video_timing.cc
-  video/i420_buffer.cc
-)
+if(NOT build_webrtc_data_only)
+
+  list(APPEND API_AUDIO_FRAME_SRC
+    audio/audio_frame.cc
+  )
+  list(APPEND API_VIDEO_FRAME_SRC
+    video/video_content_type.cc
+    video/video_frame.cc
+    video/video_frame_buffer.cc
+    video/video_timing.cc
+    video/i420_buffer.cc
+  )
+endif(NOT build_webrtc_data_only)
 
 list(APPEND API_SRC
   optional.cc

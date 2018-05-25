@@ -30,19 +30,13 @@ if(rtc_build_libsrtp)
 endif(rtc_build_libsrtp)
 
 list(APPEND RTC_PEERCONNECTION_SRC
-  audiotrack.cc
   datachannel.cc
   dtmfsender.cc
-  dtmfsender.h
   iceserverparsing.cc
   jsepicecandidate.cc
   jsepsessiondescription.cc
-  localaudiosource.cc
-  mediastream.cc
-  mediastreamobserver.cc
   peerconnection.cc
   peerconnectionfactory.cc
-  remoteaudiosource.cc
   rtcstatscollector.cc
   rtpreceiver.cc
   rtpsender.cc
@@ -50,16 +44,28 @@ list(APPEND RTC_PEERCONNECTION_SRC
   sctputils.cc
   sdputils.cc
   statscollector.cc
-  trackmediainfomap.cc
-  videocapturertracksource.cc
-  videotrack.cc
-  videotracksource.cc
   webrtcsdp.cc
   webrtcsessiondescriptionfactory.cc
 )
 
+list(APPEND RTC_MEDIA_PEERCONNECTION_SRC "")
+if(NOT build_webrtc_data_only)
+  list(APPEND RTC_MEDIA_PEERCONNECTION_SRC
+    audiotrack.cc
+    localaudiosource.cc
+    mediastream.cc
+    mediastreamobserver.cc
+    remoteaudiosource.cc
+    trackmediainfomap.cc
+    videocapturertracksource.cc
+    videotrack.cc
+    videotracksource.cc
+  )
+endif(NOT build_webrtc_data_only)
 
-add_library(${PROJECT_NAME} STATIC ${RTC_PC_SRC} ${RTC_PEERCONNECTION_SRC})
+
+
+add_library(${PROJECT_NAME} STATIC ${RTC_PC_SRC} ${RTC_PEERCONNECTION_SRC} ${RTC_MEDIA_PEERCONNECTION_SRC})
 target_compile_definitions(${PROJECT_NAME} PRIVATE HAVE_SCTP)
 if(rtc_build_win)
   target_link_libraries(${PROJECT_NAME} strmiids.lib)
