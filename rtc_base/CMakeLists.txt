@@ -1,6 +1,7 @@
 project(rtc_base)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/experiments)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../third_party/jsoncpp/include)
 
@@ -58,86 +59,87 @@ set(BUILD_STATIC_LIBS ON CAHCE BOOL "jsoncpp build shared ?")
 add_subdirectory(../third_party/jsoncpp "${CMAKE_CURRENT_BINARY_DIR}/jsoncpp")
 
 list(APPEND RTC_BASE_SRC
-asyncinvoker.cc
-asyncpacketsocket.cc
-asyncresolverinterface.cc
-asyncsocket.cc
-asynctcpsocket.cc
-asyncudpsocket.cc
-base64.cc
-bitbuffer.cc
-bitrateallocationstrategy.cc
-bufferqueue.cc
-bytebuffer.cc
-checks.cc
-copyonwritebuffer.cc
-crc32.cc
-criticalsection.cc
-cryptstring.cc
-event.cc
-event_tracer.cc
-file.cc
-filerotatingstream.cc
-fileutils.cc
-flags.cc
-helpers.cc
-httpcommon.cc
-ipaddress.cc
-json.cc
-location.cc
-logging.cc
-logsinks.cc
-messagedigest.cc
-messagehandler.cc
-messagequeue.cc
-nethelper.cc
-nethelpers.cc
-network.cc
-networkmonitor.cc
-nullsocketserver.cc
-numerics/exp_filter.cc
-numerics/histogram_percentile_counter.cc
-openssladapter.cc
-openssldigest.cc
-opensslidentity.cc
-opensslstreamadapter.cc
-optionsfile.cc
-pathutils.cc
-physicalsocketserver.cc
-platform_file.cc
-platform_thread.cc
-platform_thread_types.cc
-proxyinfo.cc
-race_checker.cc
-random.cc
-ratelimiter.cc
-ratetracker.cc
-rate_limiter.cc
-rate_statistics.cc
-rtccertificate.cc
-rtccertificategenerator.cc
-sequenced_task_checker_impl.cc
-signalthread.cc
-sigslot.cc
-socketadapters.cc
-socketaddress.cc
-socketaddresspair.cc
-socketstream.cc
-ssladapter.cc
-sslfingerprint.cc
-sslidentity.cc
-sslstreamadapter.cc
-stream.cc
-stringencode.cc
-stringutils.cc
-string_to_number.cc
-thread.cc
-thread_checker_impl.cc
-timestampaligner.cc
-timeutils.cc
-transformadapter.cc
-weak_ptr.cc
-zero_memory.cc
+  asyncinvoker.cc
+  asyncpacketsocket.cc
+  asyncresolverinterface.cc
+  asyncsocket.cc
+  asynctcpsocket.cc
+  asyncudpsocket.cc
+  base64.cc
+  bitbuffer.cc
+  bitrateallocationstrategy.cc
+  bufferqueue.cc
+  bytebuffer.cc
+  checks.cc
+  copyonwritebuffer.cc
+  crc32.cc
+  criticalsection.cc
+  cryptstring.cc
+  event.cc
+  event_tracer.cc
+  file.cc
+  filerotatingstream.cc
+  fileutils.cc
+  flags.cc
+  helpers.cc
+  httpcommon.cc
+  ipaddress.cc
+  json.cc
+  location.cc
+  logging.cc
+  logsinks.cc
+  messagedigest.cc
+  messagehandler.cc
+  messagequeue.cc
+  nethelper.cc
+  nethelpers.cc
+  network.cc
+  networkmonitor.cc
+  nullsocketserver.cc
+  numerics/exp_filter.cc
+  numerics/histogram_percentile_counter.cc
+  openssladapter.cc
+  openssldigest.cc
+  opensslidentity.cc
+  opensslstreamadapter.cc
+  optionsfile.cc
+  pathutils.cc
+  physicalsocketserver.cc
+  platform_file.cc
+  platform_thread.cc
+  platform_thread_types.cc
+  proxyinfo.cc
+  race_checker.cc
+  random.cc
+  ratelimiter.cc
+  ratetracker.cc
+  rate_limiter.cc
+  rate_statistics.cc
+  rtccertificate.cc
+  rtccertificategenerator.cc
+  sequenced_task_checker_impl.cc
+  signalthread.cc
+  sigslot.cc
+  socketadapters.cc
+  socketaddress.cc
+  socketaddresspair.cc
+  socketstream.cc
+  ssladapter.cc
+  sslfingerprint.cc
+  sslidentity.cc
+  sslstreamadapter.cc
+  stream.cc
+  stringencode.cc
+  stringutils.cc
+  string_to_number.cc
+  thread.cc
+  thread_checker_impl.cc
+  timestampaligner.cc
+  timeutils.cc
+  transformadapter.cc
+  weak_ptr.cc
+  zero_memory.cc
+  experiments/alr_experiment.cc
 )
 
 add_library(${PROJECT_NAME} STATIC ${RTC_BASE_SRC} ${PLATFORM_SRC})

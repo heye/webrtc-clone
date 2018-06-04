@@ -25,4 +25,4 @@ list(APPEND RTC_COMMON_VIDEO_SRC
 
 
 add_library(${PROJECT_NAME} STATIC ${RTC_COMMON_VIDEO_SRC})
-target_link_libraries(${PROJECT_NAME} STATIC  yuv)
+target_link_libraries(${PROJECT_NAME} yuv)

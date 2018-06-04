@@ -95,6 +95,14 @@ list(APPEND RTC_AUDIO_PROCESSING_SRC
   agc/legacy/analog_agc.c
   agc/legacy/digital_agc.c
   logging/apm_data_dumper.cc
+  vad/gmm.cc
+  vad/pitch_based_vad.cc
+  vad/pitch_internal.cc
+  vad/pole_zero_filter.cc
+  vad/standalone_vad.cc
+  vad/vad_audio_proc.cc
+  vad/vad_circular_buffer.cc
+  vad/voice_activity_detector.cc
 )
 
 if (rtc_prefer_fixed_point)
@@ -119,6 +127,11 @@ list(APPEND RTC_AUDIO_PROCESSING_AEC_CORE
   utility/delay_estimator_wrapper.cc
   utility/ooura_fft.cc
 )
+
+list(APPEND RTC_AUDIO_PROCESSING_AEC_CORE
+  aec_dump/null_aec_dump_factory.cc
+)
+
 
 if(rtc_build_win OR rtc_build_linux OR rtc_build_mac)
   #that is current_cpu == "x86" || current_cpu == "x64"

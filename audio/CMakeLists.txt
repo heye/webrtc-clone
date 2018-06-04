@@ -16,6 +16,7 @@ list(APPEND RTC_AUDIO_SRC
   remix_resample.h
   time_interval.cc
   transport_feedback_packet_loss_tracker.cc
+  utility/audio_frame_operations.cc
 )
 
 add_library(${PROJECT_NAME} STATIC ${RTC_AUDIO_SRC})

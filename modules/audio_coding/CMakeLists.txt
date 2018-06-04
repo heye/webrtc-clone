@@ -11,11 +11,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/codecs/g722/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/codecs/isac/main/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/codecs/pcm16b/include)
 
-option(rtc_include_opus "includes opus source files" OFF)
-option(rtc_build_opus "build opus support" OFF)
-option(rtc_build_ilbc "build ilbc support" OFF)
-option(rtc_build_isac "build isac support" OFF)
-option(rtc_build_isacfix "build isac support" ON)
 # RED is disabled by default 
 
 if(rtc_build_opus)
@@ -293,7 +288,7 @@ list(APPEND RTC_AUDIO_NETEQ_SRC
   neteq/post_decode_vad.cc
   neteq/preemptive_expand.cc
   neteq/random_vector.cc
-  #neteq/red_payload_splitter.cc
+  neteq/red_payload_splitter.cc
   neteq/rtcp.cc
   neteq/statistics_calculator.cc
   neteq/sync_buffer.cc

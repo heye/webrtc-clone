@@ -11,6 +11,7 @@ list(APPEND RTC_CALL_SRC
   rtp_rtcp_demuxer_helper.cc
   rtp_stream_receiver_controller.cc
   rtp_transport_controller_send.cc
+  rtx_receive_stream.cc
   bitrate_allocator.cc
   call.cc
   callfactory.cc

@@ -17,6 +17,7 @@ list(APPEND RTC_SYS_WRAPPER_SRC
   source/timestamp_extrapolator.cc
   source/field_trial_default.cc
   source/metrics_default.cc
+  source/runtime_enabled_features_default.cc
 )
 list(APPEND PLATFORM_SRC "")
 if(rtc_build_linux)

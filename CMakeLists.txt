@@ -36,7 +36,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/bin
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_STANDARD 14)
 #======================= cmake current project options =================================
-option(build_webrtc_data_only "build only data support" ON)
+option(build_webrtc_video_support "build video support" OFF)
 
 #======================= webrtc options =================================
 option(rtc_build_win "build win" ON)
@@ -55,7 +55,6 @@ option(rtc_buildfor_arm64 "build for arm64" OFF)
 option(rtc_buildfor_arm "build for arm" OFF)
 option(rtc_build_ssl "build rtc ssl" ON)
 option(rtc_enable_libevent "enable libevent" OFF)
-option(rtc_build_libsrtp "ebnable libsrtp" OFF)
 option(rtc_desktop_capture_supported "enable desktop capture" OFF)
 option(rtc_prefer_fixed_point "enble fixed point" OFF)
 option(rtc_use_h264 "use h264 codec" OFF)
@@ -64,6 +63,9 @@ option(rtc_build_libvpx "enable libvpx" OFF)
 option(rtc_libvpx_build_vp9 "enable libvpx vp9" OFF)
 option(rtc_use_builtin_sw_codecs "enable build in codecs" ON)
 option(rtc_use_openmax_dl "enable openmax" OFF)
+option(rtc_include_ilbc "include ilbc" OFF)
+option(rtc_include_opus "include opus" OFF)
+option(rtc_include_isac "include isac support" ON)
 
 #======================= end webrtc options =================================
 
@@ -136,7 +138,40 @@ endif()
 if (rtc_enable_protobuf)
   list(APPEND rtc_definitions "ENABLE_RTC_EVENT_LOG")
 endif()
-#end definitions
+if(rtc_include_ilbc)
+  list(APPEND rtc_definitions "WEBRTC_USE_BUILTIN_ILBC=1")
+  set(rtc_build_ilbc TRUE)
+else()
+  list(APPEND rtc_definitions "WEBRTC_USE_BUILTIN_ILBC=0")
+  set(rtc_build_ilbc FALSE)
+endif(rtc_include_ilbc)
+if(rtc_include_opus)
+  list(APPEND rtc_definitions "WEBRTC_USE_BUILTIN_OPUS=1")
+  set(rtc_build_opus TRUE)
+else()
+  list(APPEND rtc_definitions "WEBRTC_USE_BUILTIN_OPUS=0")
+  set(rtc_build_opus FALSE)
+endif(rtc_include_opus)
+if(rtc_include_isac)
+  if(rtc_buildfor_arm OR rtc_buildfor_arm64)
+    set(rtc_build_isacfix ON)
+    set(rtc_build_isac OFF)
+    list( APPEND rtc_definitions
+          "WEBRTC_USE_BUILTIN_ISAC_FIX=1"
+          "WEBRTC_USE_BUILTIN_ISAC_FLOAT=0"
+        )
+  else()
+    set(rtc_build_isacfix OFF)
+    set(rtc_build_isac ON)
+    list( APPEND rtc_definitions
+        "WEBRTC_USE_BUILTIN_ISAC_FIX=0"
+        "WEBRTC_USE_BUILTIN_ISAC_FLOAT=1"
+        )
+  endif(rtc_buildfor_arm OR rtc_buildfor_arm64)
+endif(rtc_include_isac)
+list(APPEND rtc_definitions "HAVE_WEBRTC_VOICE")
+
+#end definitions  
 
 #compiler options
 if(UNIX)
@@ -165,15 +200,17 @@ if(rtc_build_ios OR rtc_build_mac)
   add_subdirectory(sdk)
 endif(rtc_build_ios OR rtc_build_mac)
 add_subdirectory(api)
+add_subdirectory(audio)
+add_subdirectory(common_audio)
+add_subdirectory(call)
+add_subdirectory(media)
+add_subdirectory(video)
+add_subdirectory(common_video)
 
-if(NOT build_webrtc_data_only)
-  add_subdirectory(video)
-  add_subdirectory(audio)
-  add_subdirectory(common_audio)
-  add_subdirectory(common_video)
-  add_subdirectory(call)
-  add_subdirectory(media)
-endif(NOT build_webrtc_data_only)
+if(build_webrtc_video_support)
+  list(APPEND rtc_definitions "HAVE_WEBRTC_VIDEO")
+  set(rtc_use_builtin_sw_codecs ON)
+endif(build_webrtc_video_support)
 
 #end subfolders
 target_compile_definitions(rtc_base PUBLIC ${rtc_definitions})
@@ -184,14 +221,12 @@ target_compile_definitions(rtc_logging PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_system_wrappers PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_ortc PUBLIC ${rtc_definitions})
 target_compile_definitions(rtc_modules INTERFACE ${rtc_definitions})
-if(NOT build_webrtc_data_only)
-  target_compile_definitions(rtc_video PUBLIC ${rtc_definitions})
-  target_compile_definitions(rtc_audio PUBLIC ${rtc_definitions})
-  target_compile_definitions(rtc_common_audio PUBLIC ${rtc_definitions})
-  target_compile_definitions(rtc_common_video PUBLIC ${rtc_definitions})
-  target_compile_definitions(rtc_call PUBLIC ${rtc_definitions})
-  target_compile_definitions(rtc_media PUBLIC ${rtc_definitions})
-endif(NOT build_webrtc_data_only)
+target_compile_definitions(rtc_call PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_audio PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_common_audio PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_media PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_video PUBLIC ${rtc_definitions})
+target_compile_definitions(rtc_common_video PUBLIC ${rtc_definitions})
 
 if(rtc_build_ios OR rtc_build_mac)
   target_compile_definitions(rtc_sdk PUBLIC ${rtc_definitions})
@@ -209,14 +244,12 @@ include_directories(p2p)
 include_directories(pc)
 include_directories(stats)
 include_directories(api)
-if(NOT build_webrtc_data_only)
-  include_directories(video)
-  include_directories(audio)
-  include_directories(call)
-  include_directories(common_audio)
-  include_directories(common_video)
-  include_directories(media)
-endif(NOT build_webrtc_data_only)
+include_directories(call)
+include_directories(audio)
+include_directories(common_audio)
+include_directories(media)
+include_directories(video)
+include_directories(common_video)
 
 if(rtc_build_ios OR rtc_build_mac)
   include_directories(sdk)
@@ -228,6 +261,10 @@ set(RTC_SRC "common_types.cc")
 
 
 add_library(${PROJECT_NAME} STATIC ${RTC_SRC})
-target_link_libraries(${PROJECT_NAME} rtc_base rtc_pc rtc_p2p rtc_stats rtc_logging rtc_video rtc_system_wrappers)
+
+target_link_libraries(${PROJECT_NAME} rtc_api rtc_call rtc_base rtc_pc rtc_p2p rtc_stats rtc_logging rtc_system_wrappers rtc_modules rtc_audio rtc_common_audio rtc_media rtc_video rtc_common_video)
+
+
+
 target_compile_options(${PROJECT_NAME} PUBLIC ${rtc_compile_options_c} ${rtc_compile_options_cxx})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${rtc_definitions})

@@ -59,11 +59,11 @@ list(APPEND RTC_VIDEO_CODING_SRC
 if(rtc_use_builtin_sw_codecs)
 list(APPEND RTC_VIDEO_CODING_SRC
     codecs/i420/i420.cc
-    codecs/vp8/default_temporal_layers.cc
-    codecs/vp8/screenshare_layers.cc
-    codecs/vp8/simulcast_rate_allocator.cc
-    codecs/vp8/temporal_layers.cc
-    codecs/vp8/vp8_impl.cc
+   # codecs/vp8/default_temporal_layers.cc
+   # codecs/vp8/screenshare_layers.cc
+   # codecs/vp8/simulcast_rate_allocator.cc
+   # codecs/vp8/temporal_layers.cc
+   # codecs/vp8/vp8_impl.cc
     )
 endif(rtc_use_builtin_sw_codecs)
 
