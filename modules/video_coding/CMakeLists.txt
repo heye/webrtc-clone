@@ -7,9 +7,9 @@ endif(rtc_use_h264)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/internal)
-include_directories(${CMAKE_SOURCE_DIR}/third_party)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/libyuv)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/libyuv/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../third_party)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/libyuv)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/libyuv/include)
 
 list(APPEND RTC_VIDEO_CODING_SRC
   codec_database.cc
@@ -59,11 +59,10 @@ list(APPEND RTC_VIDEO_CODING_SRC
 if(rtc_use_builtin_sw_codecs)
 list(APPEND RTC_VIDEO_CODING_SRC
     codecs/i420/i420.cc
-   # codecs/vp8/default_temporal_layers.cc
-   # codecs/vp8/screenshare_layers.cc
-   # codecs/vp8/simulcast_rate_allocator.cc
-   # codecs/vp8/temporal_layers.cc
-   # codecs/vp8/vp8_impl.cc
+    codecs/vp8/default_temporal_layers.cc
+    codecs/vp8/screenshare_layers.cc
+    codecs/vp8/simulcast_rate_allocator.cc
+    codecs/vp8/temporal_layers.cc
     )
 endif(rtc_use_builtin_sw_codecs)
 
@@ -76,7 +75,22 @@ if(rtc_use_h264)
       codecs/h264/h264_encoder_impl.cc
       codecs/h264/h264.cc
     )
+else()
+  list(APPEND RTC_VIDEO_CODING_SRC
+    codecs/h264/h264.cc
+  )
 endif(rtc_use_h264)
+
+if(NOT build_webrtc_video_support)
+  list(APPEND RTC_VIDEO_CODING_SRC
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/workaround/vp8_noop.cc
+    )
+else()
+  list(APPEND RTC_VIDEO_CODING_SRC
+    codecs/vp8/vp8_impl.cc
+  )
+
+endif(NOT build_webrtc_video_support)
 
 if(rtc_libvpx_build_vp9)
   list(APPEND RTC_VIDEO_CODING_SRC
