@@ -35,6 +35,6 @@ else()
       isac/audio_decoder_isac_float.cc
       isac/audio_encoder_isac_float.cc
       )
-endif(rtc_buildfor_arm OR rtc_buildfor_arm64)
+endif(rtc_build_isacfix)
 
 add_library(${PROJECT_NAME} STATIC ${AUDIO_CODECS_SRC})
