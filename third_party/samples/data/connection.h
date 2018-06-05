@@ -8,7 +8,14 @@
 
 namespace sample
 {
-
+  class icecandidate
+  {
+  public:
+    std::string candidatestr;
+    std::string sdp_mid;
+    int sdp_mline;
+    std::string murl;
+  };
   class Connection
   {
     public:
@@ -43,6 +50,7 @@ namespace sample
     ConnectionDataObs mDataObs;
     rtc::scoped_refptr<CreateSessionObs> mCreateSession;
     rtc::scoped_refptr<SetSessionObs> mSetSession;
+    std::vector<icecandidate> mCandidateVec;
     std::string mConnId;
     std::string sdp_type;
   };

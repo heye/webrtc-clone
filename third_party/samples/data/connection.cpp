@@ -19,6 +19,7 @@ namespace sample
     {
       return false;
     }
+  
     auto isOk = createDataChannel(aDataConfig);
     if (!isOk)
     {
@@ -63,6 +64,12 @@ namespace sample
 
   void Connection::onIceCandidate(const webrtc::IceCandidateInterface * candidate)
   {
+    icecandidate cand;
+    candidate->ToString(&cand.candidatestr);
+    cand.sdp_mid = candidate->sdp_mid();
+    cand.sdp_mline = candidate->sdp_mline_index();
+    cand.murl = candidate->server_url();
+    mCandidateVec.emplace_back(std::move(cand));
   }
   void Connection::onDataStateChange()
   {
