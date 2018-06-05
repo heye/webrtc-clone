@@ -9,4 +9,4 @@
 	url = https://github.com/sctplab/usrsctp.git
 [submodule "third_party/libsrtp"]
 	path = third_party/libsrtp
-	url = git@github.com:tzulea/libsrtp.git
+	url = https://github.com/tzulea/libsrtp.git
