@@ -11,8 +11,18 @@ add_subdirectory("../../../" "${CMAKE_CURRENT_BINARY_DIR}/webrtc")
 
 list(APPEND SRC
       main.cpp
-    # connection.cpp
+      connection.cpp
+      conndataobserver.cpp
+      connobserver.cpp
+      createsessionobs.cpp
+      setsessionobs.cpp
       manager.cpp
+      connection.h
+      conndataobserver.h
+      connobserver.h
+      createsessionobs.h
+      setsessionobs.h
+      manager.h
     )
 
 list(APPEND sample_definitions "WEBRTC_WIN" "_CRT_SECURE_NO_WARNINGS" "NOMINMAX" "_UNICODE" "UNICODE" "WIN32_LEAN_AND_MEAN" )
